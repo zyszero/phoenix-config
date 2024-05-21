@@ -11,8 +11,7 @@
     <groupId>io.github.zyszero</groupId>
     <artifactId>phoenix-config-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>phoenix-config-server</name>
-    <description>phoenix-config-server</description>
+
     <properties>
         <java.version>17</java.version>
     </properties>

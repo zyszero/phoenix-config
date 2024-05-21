@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Repository
 @Mapper
-public interface ConfigMapper {
+public interface ConfigsMapper {
     @Select("select * from configs where app=#{app} and env=#{env} and ns=#{ns}")
     List<Configs> list(String app, String env, String ns);
 
