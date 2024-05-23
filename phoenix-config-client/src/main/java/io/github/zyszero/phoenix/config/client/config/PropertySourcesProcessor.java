@@ -11,9 +11,6 @@ import org.springframework.core.env.CompositePropertySource;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Phoenix property sources processor.
  *
@@ -27,28 +24,35 @@ public class PropertySourcesProcessor implements BeanFactoryPostProcessor, Envir
 
     private final static String PHOENIX_PROPERTY_SOURCE = "PhoenixPropertySource";
 
-    Environment environment;
+    private Environment environment;
 
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
-        ConfigurableEnvironment env = (ConfigurableEnvironment) environment;
+        ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) environment;
 
-        if (env.getPropertySources().contains(PHOENIX_PROPERTY_SOURCES)) {
+        if (configurableEnvironment.getPropertySources().contains(PHOENIX_PROPERTY_SOURCES)) {
             return;
         }
 
         // TODO 通过 http 请求 phoenix config server 获取配置
-        Map<String, String> config = new HashMap<>();
-        config.put("phoenix.a", "dev500");
-        config.put("phoenix.b", "b600");
-        config.put("phoenix.c", "c700");
+//        Map<String, String> config = new HashMap<>();
+//        config.put("phoenix.a", "dev500");
+//        config.put("phoenix.b", "b600");
+//        config.put("phoenix.c", "c700");
 
-        PhoenixConfigService phoenixConfigService = new PhoenixConfigServiceImpl(config);
+        String app = configurableEnvironment.getProperty("phoenix.config.app", "app1");
+        String env = configurableEnvironment.getProperty("phoenix.config.env", "dev");
+        String ns = configurableEnvironment.getProperty("phoenix.config.ns", "public");
+        String configServer = configurableEnvironment.getProperty("phoenix.config.configServer", "http://localhost:9129");
+
+        ConfigMeta configMeta = new ConfigMeta(app, env, ns, configServer);
+        PhoenixConfigService phoenixConfigService = PhoenixConfigService.getDefault(configMeta);
+
         PhoenixPropertySource propertySource = new PhoenixPropertySource(PHOENIX_PROPERTY_SOURCE, phoenixConfigService);
 
         CompositePropertySource composite = new CompositePropertySource(PHOENIX_PROPERTY_SOURCES);
         composite.addPropertySource(propertySource);
-        env.getPropertySources().addFirst(composite);
+        configurableEnvironment.getPropertySources().addFirst(composite);
     }
 
     public int getOrder() {
