@@ -9,20 +9,26 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 
 @SpringBootApplication
 @EnableConfigurationProperties(PhoenixDemoConfig.class)
 @EnablePhoenixConfig
+@RestController
 public class PhoenixConfigDemoApplication {
 
 
     @Value("${phoenix.a}")
     String a;
 
+    @Value("${phoenix.b}")
+    String b;
+
     @Autowired
-    private PhoenixDemoConfig phoenixDemoConfig;
+    private PhoenixDemoConfig demoConfig;
 
     @Autowired
     Environment environment;
@@ -33,6 +39,15 @@ public class PhoenixConfigDemoApplication {
     }
 
 
+    @GetMapping("/demo")
+    public String demo() {
+        return "phoenix.a = " + a + "\n"
+                + "phoenix.b = " + b + "\n"
+                + "demo.a = " + demoConfig.getA() + "\n"
+                + "demo.b = " + demoConfig.getB() + "\n";
+    }
+
+
     @Bean
     ApplicationRunner applicationRunner() {
 
@@ -40,7 +55,7 @@ public class PhoenixConfigDemoApplication {
 
         return args -> {
             System.out.println(a);
-            System.out.println(phoenixDemoConfig.getA());
+            System.out.println(demoConfig.getA());
         };
     }
 

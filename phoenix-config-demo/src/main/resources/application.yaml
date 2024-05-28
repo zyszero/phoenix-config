@@ -1,17 +1,18 @@
 phoenix:
-    a: A00
-    b: B00
-    c: C00
+  a: A00
+  b: B00
+  c: C00
 
 spring:
-    application:
-        name: phoenix-config-demo
+  application:
+    name: phoenix-config-demo
 
 server:
-    port: 8888
+  port: 8888
 
 
 logging:
-    level:
-        root: info
-        cn.kimmking: debug
+  level:
+    root: info
+    io.github.zyszero: debug
+    cn.kimmking: debug

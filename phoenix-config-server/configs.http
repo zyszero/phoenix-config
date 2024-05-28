@@ -7,10 +7,14 @@ POST http://localhost:9129/update?app=app1&env=dev&ns=public
 Content-Type: application/json
 
 {
-  "zys.a": "dev200",
-  "zys.b": "cc200",
-  "zys.d": "dd200"
+  "phoenix.a": "dev1228888",
+  "phoenix.b": "cc200",
+  "phoenix.d": "dd200"
 }
 
 ### version
 GET http://localhost:9129/version?app=app1&env=dev&ns=public
+
+
+### demo 8888
+GET http://localhost:8888/demo

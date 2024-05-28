@@ -14,4 +14,6 @@ public class PhoenixDemoConfig {
 
     String a;
 
+    String b;
+
 }
