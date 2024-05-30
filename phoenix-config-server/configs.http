@@ -7,7 +7,7 @@ POST http://localhost:9129/update?app=app1&env=dev&ns=public
 Content-Type: application/json
 
 {
-  "phoenix.a": "dev1228888",
+  "phoenix.a": "dev1888",
   "phoenix.b": "cc200",
   "phoenix.d": "dd200"
 }

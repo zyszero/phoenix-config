@@ -7,6 +7,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ import java.util.Arrays;
 public class PhoenixConfigDemoApplication {
 
 
-    @Value("${phoenix.a}")
+    @Value("${phoenix.a}.${phoenix.b}")
     String a;
 
     @Value("${phoenix.b}")
@@ -35,7 +36,8 @@ public class PhoenixConfigDemoApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(PhoenixConfigDemoApplication.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(PhoenixConfigDemoApplication.class, args);
+
     }
 
 
