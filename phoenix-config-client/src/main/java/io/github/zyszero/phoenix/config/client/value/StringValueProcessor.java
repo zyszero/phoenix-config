@@ -41,10 +41,10 @@ public class StringValueProcessor implements BeanPostProcessor, BeanFactoryAware
         // 第一步：扫描所有的 Spring Value，保存起来
         FieldUtils.findAnnotatedField(bean.getClass(), Value.class).forEach(
                 field -> {
-                    log.info("[PHOENIX] >> find spring value: {}", field);
+                    log.info("[PHOENIX CONFIG] >> find spring value: {}", field);
                     Value value = field.getAnnotation(Value.class);
                     HELPER.extractPlaceholderKeys(value.value()).forEach(key -> {
-                        log.info("[PHOENIX] >> find spring value: {}", key);
+                        log.info("[PHOENIX CONFIG] >> find spring value: {}", key);
                         SpringValue springValue = new SpringValue(bean, beanName, key, value.value(), field);
                         VALUE_HOLDER.add(key, springValue);
                     });
@@ -61,10 +61,10 @@ public class StringValueProcessor implements BeanPostProcessor, BeanFactoryAware
      */
     @Override
     public void onApplicationEvent(EnvironmentChangeEvent event) {
-        log.info("[PHOENIX] >> update spring values for keys: {}", event.getKeys());
+        log.info("[PHOENIX CONFIG] >> update spring values for keys: {}", event.getKeys());
         // 第二步：在配置更新时，更新所有的 Spring Value
         event.getKeys().forEach(key -> {
-            log.info("[PHOENIX] >> update spring value for key: {}", key);
+            log.info("[PHOENIX CONFIG] >> update spring value for key: {}", key);
             List<SpringValue> springValues = VALUE_HOLDER.get(key);
             if (springValues == null || springValues.isEmpty()) {
                 return;
@@ -72,14 +72,14 @@ public class StringValueProcessor implements BeanPostProcessor, BeanFactoryAware
 
             springValues.forEach(springValue -> {
                 try {
-                    log.info("[PHOENIX] >> update spring value: {} for key {}", springValue, key);
+                    log.info("[PHOENIX CONFIG] >> update spring value: {} for key {}", springValue, key);
                     Object value = HELPER.resolvePropertyValue((ConfigurableBeanFactory) beanFactory,
                             springValue.getBeanName(), springValue.getPlaceholder());
-                    log.info("[PHOENIX] >> update value: {} for holder {}", value, springValue.getPlaceholder());
+                    log.info("[PHOENIX CONFIG] >> update value: {} for holder {}", value, springValue.getPlaceholder());
                     springValue.getField().setAccessible(true);
                     springValue.getField().set(springValue.getBean(), value);
                 } catch (IllegalAccessException e) {
-                    log.error("[PHOENIX] >> update spring value error", e);
+                    log.error("[PHOENIX CONFIG] >> update spring value error", e);
                 }
             });
 

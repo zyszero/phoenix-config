@@ -14,3 +14,10 @@ values ('app2', 'dev', 'public', 'phoenix.b', 'http://localhost:9192');
 
 insert into configs(app, env, ns, pkey, pval)
 values ('app3', 'dev', 'public', 'phoenix.c', 'cc100');
+
+
+create table if not exists `locks`(
+                                      `id` int primary key not null,
+                                      `app` varchar(64) not null
+);
+insert into locks (id, app) values (1, 'phoenix-config-server');

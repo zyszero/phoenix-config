@@ -18,3 +18,31 @@ GET http://localhost:9129/version?app=app1&env=dev&ns=public
 
 ### demo 8888
 GET http://localhost:8888/demo
+
+
+### update phoenix rpc consumer config
+POST http://localhost:9129/update?app=app1&env=dev&ns=public
+Content-Type: application/json
+
+{
+  "phoenix.rpc.consumer.retries": 2,
+  "phoenix.rpc.consumer.timeout": 1000,
+  "phoenix.rpc.consumer.gray-ratio": 10,
+  "phoenix.rpc.consumer.fault-limit": 10
+}
+
+
+### update phoenix rpc provider config
+POST http://localhost:9129/update?app=app1&env=dev&ns=public
+Content-Type: application/json
+
+{
+"phoenix.rpc.provider.metas.dc": "sh",
+"phoenix.rpc.provider.metas.gray": true,
+"phoenix.rpc.provider.metas.unit": "S001",
+"phoenix.rpc.provider.metas.tc": 10
+}
+
+
+### get status 9129
+GET http://localhost:9130/status

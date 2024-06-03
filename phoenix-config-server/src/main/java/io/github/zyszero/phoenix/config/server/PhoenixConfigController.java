@@ -21,11 +21,15 @@ public class PhoenixConfigController {
     @Autowired
     private ConfigsMapper configsMapper;
 
+    @Autowired
+    private DistributedLocks locks;
+
     Map<String, Long> VERSIONS = new HashMap<>();
 
 
     @GetMapping("/list")
     public List<Configs> list(String app, String env, String ns) {
+        // TODO 缓存优化
         return configsMapper.list(app, env, ns);
     }
 
@@ -53,5 +57,11 @@ public class PhoenixConfigController {
     @GetMapping("/version")
     public long version(String app, String env, String ns) {
         return VERSIONS.getOrDefault(app + "-" + env + "-" + ns, -1L);
+    }
+
+
+    @GetMapping("/status")
+    public boolean status() {
+        return locks.getLocked().get();
     }
 }
