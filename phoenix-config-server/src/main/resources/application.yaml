@@ -8,8 +8,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.200.61:3306/phoenix_config?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-    username: root
-    password: Netca@2019
+    username: phoenix
+    password: Phoenix@2024
   #    driver-class-name: org.h2.Driver
 #    url: jdbc:h2:mem:h2db
 #    username: root
